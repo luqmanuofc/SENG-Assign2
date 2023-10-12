@@ -1,7 +1,7 @@
 body {
     text-align: center;
     margin-top: 50px;
-    border: 2px solid red;
+    background: #4DB6AC;
 }
 
 .game-board {
@@ -36,3 +36,16 @@ body {
 .player2{
     background-color: yellow;
 }
+@keyframes slideDown {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.cell.falling {
+    animation: slideDown 0.5s forwards; /* Play the animation once and retain the final state */
+}
+

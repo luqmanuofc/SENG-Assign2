@@ -7,6 +7,7 @@
 // 5. Include a board image in the background.
 // 6. Add a score board.
 // 7. Add a timer.
+// 8. Change player names.
 
 const gameBoard = document.querySelector(".game-board");
 
@@ -41,22 +42,48 @@ const board = Array(6)
 updateUI();
 
 function placeDisc(player, column) {
+  let targetRow = -1;
   for (let row = 5; row >= 0; row--) {
     if (!board[row][column]) {
-      board[row][column] = player;
-      updateUI(); // Reflect the change on UI
-      if (checkForWin(player, row, column)) {
-        alert(`Player ${player} wins!`);
-        resetGame();
-        return;
-      }
-      if (checkForTie()) {
-        alert("The game is a tie!");
-        resetGame();
-        return;
-      }
+      targetRow = row;
+      break;
+    }
+  }
+
+  if (targetRow !== -1) {
+    animateFallingDisc(player, 0, targetRow, column); // Start animation from the top
+  }
+}
+
+function animateFallingDisc(player, currentRow, targetRow, column) {
+  if (currentRow <= targetRow) {
+    const cell = document.querySelector(
+      `[data-row='${currentRow}'][data-col='${column}']`
+    );
+
+    // Temporarily show the disc at this cell
+    cell.classList.add(`player${player}`, "falling");
+
+    setTimeout(() => {
+      // Remove temporary disc and continue animation to next cell
+      cell.classList.remove(`player${player}`, "falling");
+
+      // Go to next cell in the column
+      animateFallingDisc(player, currentRow + 1, targetRow, column);
+    }, 50); // 50ms for each cell animation, adjust for speed
+  } else {
+    // Animation ended, update board state and UI as previously
+    board[targetRow][column] = player;
+    updateUI();
+
+    if (checkForWin(player, targetRow, column)) {
+      alert("The game is a tie!");
+      resetGame();
+    } else if (checkForTie()) {
+      alert("The game is a tie!");
+      resetGame();
+    } else {
       switchTurn();
-      return;
     }
   }
 }
