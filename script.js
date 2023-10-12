@@ -174,6 +174,8 @@ function updateUI() {
   // Update the turn indicator
   const info = document.querySelector(".info");
   info.textContent = `Player ${currentPlayer} (${
-    currentPlayer === 1 ? "red" : "blue"
+    currentPlayer === 1 ? "red" : "yellow"
   }) Turn`;
+
+  return;
 }
