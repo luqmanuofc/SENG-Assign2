@@ -2,20 +2,39 @@ body {
     text-align: center;
     margin-top: 50px;
     background: #4DB6AC;
+    /* background-image: url('./assets/pixelBackground.jpg'); */
+    background-size: auto;
+    background-repeat: no-repeat;
 }
 
-.game-board {
+.game-board, .game-board-icons-row {
     width: 350px;
-    height: 300px;
-    margin:  auto;
+    margin: auto;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-gap: 8px;
-    border: 2px solid black;
+}
 
-    background-color: #007BFF; 
+.game-board {
+    height: 300px;
+    border: 2px solid black;
+    background-color: #007BFF;
     padding: 2%;
 }
+
+.game-board-icons-row {
+    height: 40px;
+}
+
+.down-icon {
+    cursor: pointer;
+    transition: transform 0.3s;  /* smoothens the hover effect transition */
+}
+
+.down-icon:hover {
+    animation: pulse 0.5s infinite;  /* pulse animation over 0.5 seconds and repeats indefinitely */
+}
+
 
 .cell {
     width: 100%;
@@ -36,6 +55,11 @@ body {
 .player2{
     background-color: yellow;
 }
+
+.cell.falling {
+    animation: slideDown 0.5s forwards; /* Play the animation once and retain the final state */
+}
+
 @keyframes slideDown {
     0% {
         transform: translateY(-100%);
@@ -45,7 +69,14 @@ body {
     }
 }
 
-.cell.falling {
-    animation: slideDown 0.5s forwards; /* Play the animation once and retain the final state */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);  /* enlarge the icon by 10% */
+    }
+    100% {
+        transform: scale(1);
+    }
 }
-

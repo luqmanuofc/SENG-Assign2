@@ -10,22 +10,38 @@
 // 8. Change player names.
 
 const gameBoard = document.querySelector(".game-board");
+const gameBoardIconsRow = document.querySelector(".game-board-icons-row");
 
 const resetButton = document.querySelector("#reset");
 resetButton.addEventListener("click", resetGame);
 
-// Create the 6x7 grid dynamically
-for (let row = 0; row < 6; row++) {
-  for (let col = 0; col < 7; col++) {
-    const cell = document.createElement("div");
+function createCell(row, col, withIcon = false) {
+  const cell = document.createElement("div");
+
+  if (withIcon) {
+    const icon = document.createElement("img");
+    icon.src = "./assets/downArrow.svg";
+    icon.classList.add("down-icon");
+    icon.setAttribute("data-col", col);
+    icon.addEventListener("click", cellClicked);
+    cell.appendChild(icon);
+    cell.classList.add("game-board-icon");
+    gameBoardIconsRow.appendChild(cell);
+  } else {
     cell.classList.add("cell");
     cell.setAttribute("data-row", row);
     cell.setAttribute("data-col", col);
-
-    // Adding a click event listener to each cell
     cell.addEventListener("click", cellClicked);
-
     gameBoard.appendChild(cell);
+  }
+}
+
+for (let row = 0; row < 6; row++) {
+  for (let col = 0; col < 7; col++) {
+    if (row === 0) {
+      createCell(row, col, true); // Create a cell with an icon
+    }
+    createCell(row, col);
   }
 }
 
