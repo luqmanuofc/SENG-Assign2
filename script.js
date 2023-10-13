@@ -1,8 +1,11 @@
 // Todo:
+// Add a navbar; Move the title to the navbar; move the reset button, how to play, and the turn indicator to the navbar.
 // Add Win/Tie screens instead of alerts
 // Include a board image in the background.
+// Pass html validator
 
 // Maybes:
+// highlight the winning discs
 // Add the abity to choose colors for the players
 // Add a timer.
 // Change player names.
@@ -235,6 +238,8 @@ function updateUI() {
   }
   // Update the turn indicator
   const infoCell = document.querySelector(".info .info-box .cell");
+  const infoPlayer = document.querySelector(".info .info-player");
+  infoPlayer.textContent = `Player ${currentPlayer}'s turn:`;
   infoCell.classList.remove("player1", "player2");
   infoCell.classList.add(`player${currentPlayer}`);
 

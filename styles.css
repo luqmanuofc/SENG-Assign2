@@ -1,10 +1,13 @@
 body {
     text-align: center;
     margin-top: 50px;
-    /* background: #4DB6AC; */
-    /* background-image: url('./assets/pixelBackground.jpg'); */
-    background-size: auto;
-    background-repeat: no-repeat;
+    font-family: 'VT323', sans-serif;
+}
+
+.title {
+    font-size: 50px;
+    opacity: 0; 
+    animation: fadeIn 5s forwards;
 }
 
 .game-board, .game-board-icons-row {
@@ -42,12 +45,15 @@ body {
     border-radius: 50%;
     border: 2px solid black;
     background-color: #FFFFFF; 
+    cursor: pointer;
 }
 
 .info {
     margin-top: 20px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column ;
 }
 .info-box{
     width: 50px;
@@ -89,3 +95,13 @@ body {
         transform: scale(1);
     }
 }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
