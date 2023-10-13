@@ -1,40 +1,20 @@
 // Todo:
-// 1. Add a reset button (Done)
-// 2. Add the abity to choose colors for the players
-// 3. Add Win/Tie screens + animations
-// 3. Add animations.
-// 4. Add a disc at the top of the board to show which player's turn it is.
-// 5. Include a board image in the background.
-// 6. Add a score board.
-// 7. Add a timer.
-// 8. Change player names.
+// Add a reset button (Done)
+// Add the abity to choose colors for the players
+// Add Win/Tie screens + animations
+// Add animations. (Done)
+// Add a disc at the top of the board to show which player's turn it is.
+// Include a board image in the background.
+// Add a score board.
+// Add a timer.
+// Change player names.
+// Add a waiting state, where the player can't click on the board while the animation is running.
 
 const gameBoard = document.querySelector(".game-board");
 const gameBoardIconsRow = document.querySelector(".game-board-icons-row");
 
 const resetButton = document.querySelector("#reset");
 resetButton.addEventListener("click", resetGame);
-
-function createCell(row, col, withIcon = false) {
-  const cell = document.createElement("div");
-
-  if (withIcon) {
-    const icon = document.createElement("img");
-    icon.src = "./assets/downArrow.svg";
-    icon.classList.add("down-icon");
-    icon.setAttribute("data-col", col);
-    icon.addEventListener("click", cellClicked);
-    cell.appendChild(icon);
-    cell.classList.add("game-board-icon");
-    gameBoardIconsRow.appendChild(cell);
-  } else {
-    cell.classList.add("cell");
-    cell.setAttribute("data-row", row);
-    cell.setAttribute("data-col", col);
-    cell.addEventListener("click", cellClicked);
-    gameBoard.appendChild(cell);
-  }
-}
 
 for (let row = 0; row < 6; row++) {
   for (let col = 0; col < 7; col++) {
@@ -56,6 +36,27 @@ const board = Array(6)
   .map(() => Array(7).fill(null)); // 6x7 board initialized with null
 
 updateUI();
+
+function createCell(row, col, withIcon = false) {
+  const cell = document.createElement("div");
+
+  if (withIcon) {
+    const icon = document.createElement("img");
+    icon.src = "./assets/downArrow.svg";
+    icon.classList.add("down-icon");
+    icon.setAttribute("data-col", col);
+    icon.addEventListener("click", cellClicked);
+    cell.appendChild(icon);
+    cell.classList.add("game-board-icon");
+    gameBoardIconsRow.appendChild(cell);
+  } else {
+    cell.classList.add("cell");
+    cell.setAttribute("data-row", row);
+    cell.setAttribute("data-col", col);
+    cell.addEventListener("click", cellClicked);
+    gameBoard.appendChild(cell);
+  }
+}
 
 function placeDisc(player, column) {
   let targetRow = -1;
@@ -91,9 +92,8 @@ function animateFallingDisc(player, currentRow, targetRow, column) {
     // Animation ended, update board state and UI as previously
     board[targetRow][column] = player;
     updateUI();
-
     if (checkForWin(player, targetRow, column)) {
-      alert("The game is a tie!");
+      alert(`Player ${player} wins!`);
       resetGame();
     } else if (checkForTie()) {
       alert("The game is a tie!");
@@ -106,11 +106,12 @@ function animateFallingDisc(player, currentRow, targetRow, column) {
 
 function checkForWin(player, row, col) {
   return (
-    checkForStraightWin(player, row) || checkForDiagonalWin(player, row, col)
+    checkForHorizontalWin(player, row) ||
+    checkForDiagonalWin(player, row, col) ||
+    checkForVerticalWin(player, col)
   );
 }
-
-function checkForStraightWin(player, row) {
+function checkForHorizontalWin(player, row) {
   let count = 0;
   for (let j = 0; j < 7; j++) {
     if (board[row][j] === player) {
@@ -122,7 +123,18 @@ function checkForStraightWin(player, row) {
   }
   return false;
 }
-
+function checkForVerticalWin(player, col) {
+  let count = 0;
+  for (let i = 0; i < 6; i++) {
+    if (board[i][col] === player) {
+      count++;
+      if (count === 4) return true;
+    } else {
+      count = 0;
+    }
+  }
+  return false;
+}
 function checkForDiagonalWin(player, row, col) {
   // Check for Diagonal from bottom-left to top-right (`/` direction)
   let count = 1;
@@ -215,10 +227,9 @@ function updateUI() {
     }
   }
   // Update the turn indicator
-  const info = document.querySelector(".info");
-  info.textContent = `Player ${currentPlayer} (${
-    currentPlayer === 1 ? "red" : "yellow"
-  }) Turn`;
+  const infoCell = document.querySelector(".info .info-box .cell");
+  infoCell.classList.remove("player1", "player2");
+  infoCell.classList.add(`player${currentPlayer}`);
 
   return;
 }

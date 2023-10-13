@@ -1,7 +1,7 @@
 body {
     text-align: center;
     margin-top: 50px;
-    background: #4DB6AC;
+    /* background: #4DB6AC; */
     /* background-image: url('./assets/pixelBackground.jpg'); */
     background-size: auto;
     background-repeat: no-repeat;
@@ -46,6 +46,15 @@ body {
 
 .info {
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+.info-box{
+    width: 50px;
+    height: 50px;
+    background-color: #007BFF;
+    border: 2px solid black;
+    padding: 8px 8px 10px 6px;
 }
 
 .player1{
