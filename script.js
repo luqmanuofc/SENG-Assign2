@@ -1,17 +1,16 @@
 // Todo:
-// Add a reset button (Done)
-// Add the abity to choose colors for the players
-// Add Win/Tie screens + animations
-// Add animations. (Done)
-// Add a disc at the top of the board to show which player's turn it is.
+// Add Win/Tie screens instead of alerts
 // Include a board image in the background.
-// Add a score board.
+
+// Maybes:
+// Add the abity to choose colors for the players
 // Add a timer.
 // Change player names.
-// Add a waiting state, where the player can't click on the board while the animation is running.
 
 const gameBoard = document.querySelector(".game-board");
 const gameBoardIconsRow = document.querySelector(".game-board-icons-row");
+
+let pending = false;
 
 const resetButton = document.querySelector("#reset");
 resetButton.addEventListener("click", resetGame);
@@ -26,6 +25,7 @@ for (let row = 0; row < 6; row++) {
 }
 
 function cellClicked(e) {
+  if (pending) return;
   const col = parseInt(e.target.getAttribute("data-col"));
   placeDisc(currentPlayer, col);
 }
@@ -59,6 +59,7 @@ function createCell(row, col, withIcon = false) {
 }
 
 function placeDisc(player, column) {
+  pending = true;
   let targetRow = -1;
   for (let row = 5; row >= 0; row--) {
     if (!board[row][column]) {
@@ -69,6 +70,8 @@ function placeDisc(player, column) {
 
   if (targetRow !== -1) {
     animateFallingDisc(player, 0, targetRow, column); // Start animation from the top
+  } else {
+    pending = false;
   }
 }
 
@@ -101,6 +104,7 @@ function animateFallingDisc(player, currentRow, targetRow, column) {
     } else {
       switchTurn();
     }
+    pending = false;
   }
 }
 
@@ -111,6 +115,7 @@ function checkForWin(player, row, col) {
     checkForVerticalWin(player, col)
   );
 }
+
 function checkForHorizontalWin(player, row) {
   let count = 0;
   for (let j = 0; j < 7; j++) {
@@ -123,6 +128,7 @@ function checkForHorizontalWin(player, row) {
   }
   return false;
 }
+
 function checkForVerticalWin(player, col) {
   let count = 0;
   for (let i = 0; i < 6; i++) {
@@ -135,6 +141,7 @@ function checkForVerticalWin(player, col) {
   }
   return false;
 }
+
 function checkForDiagonalWin(player, row, col) {
   // Check for Diagonal from bottom-left to top-right (`/` direction)
   let count = 1;
