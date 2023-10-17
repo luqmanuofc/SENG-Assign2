@@ -2,6 +2,10 @@ body {
     text-align: center;
     margin-top: 50px;
     font-family: 'VT323', sans-serif;
+    /* background: url("./assets/background3.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat; */
+    
 }
 
 .navbar {
@@ -92,6 +96,35 @@ body {
 .cell.falling {
     animation: slideDown 0.5s forwards; /* Play the animation once and retain the final state */
 }
+
+.cell.winning {
+    border: 2px solid gold; /* or any other highlighting style you prefer */
+}
+
+
+/* Modal */
+
+.modal {
+    display: none; /* Modal is hidden by default */
+    position: fixed;
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8); 
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    color: white;
+  }
+  #end-game-message {
+    font-size: 58px;
+ }
+  
 
 @keyframes slideDown {
     0% {

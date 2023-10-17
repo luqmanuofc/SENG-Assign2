@@ -1,13 +1,16 @@
 // Todo:
-// Add a navbar; Move the title to the navbar; move the reset button, how to play, and the turn indicator to the navbar.
 // Add Win/Tie screens instead of alerts
-// Include a board image in the background.
-// Pass html validator
+// Make sure the buttons icons go with the pixel theme of the game
+// Make sure how to play button works
+// Implement a simple custom algoritm.
+// highlight the winning discs
+// Change the background image
 
 // Maybes:
-// highlight the winning discs
+// Ability to change player name
 // Add the abity to choose colors for the players
 // Add a timer.
+// Add a progress bar.
 // Change player names.
 
 const gameBoard = document.querySelector(".game-board");
@@ -15,8 +18,15 @@ const gameBoardIconsRow = document.querySelector(".game-board-icons-row");
 
 let pending = false;
 
-const resetButton = document.querySelector("#reset");
-resetButton.addEventListener("click", resetGame);
+const navbarResetButton = document.querySelector("#navbar-reset");
+navbarResetButton.addEventListener("click", function () {
+  resetGame();
+});
+const modalResetButton = document.querySelector("#modal-reset");
+modalResetButton.addEventListener("click", function () {
+  document.getElementById("end-game-modal").style.display = "none";
+  resetGame();
+});
 
 for (let row = 0; row < 6; row++) {
   for (let col = 0; col < 7; col++) {
@@ -78,6 +88,17 @@ function placeDisc(player, column) {
   }
 }
 
+function showGameEndModal(player) {
+  const modal = document.getElementById("end-game-modal");
+  const winningMessage = document.getElementById("end-game-message");
+  if (player === -1) {
+    winningMessage.textContent = `It's a tie!`;
+  } else {
+    winningMessage.textContent = `Player ${player} wins!`;
+  }
+  modal.style.display = "flex";
+}
+
 function animateFallingDisc(player, currentRow, targetRow, column) {
   if (currentRow <= targetRow) {
     const cell = document.querySelector(
@@ -99,15 +120,23 @@ function animateFallingDisc(player, currentRow, targetRow, column) {
     board[targetRow][column] = player;
     updateUI();
     if (checkForWin(player, targetRow, column)) {
-      alert(`Player ${player} wins!`);
-      resetGame();
+      showGameEndModal(player);
     } else if (checkForTie()) {
-      alert("The game is a tie!");
-      resetGame();
+      showGameEndModal(-1);
     } else {
       switchTurn();
     }
     pending = false;
+  }
+}
+
+function highlightWinningDiscs(winningCells) {
+  for (const cell of winningCells) {
+    const [row, col] = cell;
+    const cellElement = document.querySelector(
+      `[data-row='${row}'][data-col='${col}']`
+    );
+    cellElement.classList.add("winning");
   }
 }
 
@@ -217,6 +246,9 @@ function resetGame() {
     }
   }
   currentPlayer = 1;
+
+  const highlightedCells = document.querySelectorAll(".cell.winning");
+  highlightedCells.forEach((cell) => cell.classList.remove("winning"));
   updateUI();
 }
 
