@@ -1,10 +1,7 @@
 // Todo:
 // Add Win/Tie screens instead of alerts (Done)
 // highlight the winning discs (Done)
-// Make sure the buttons icons go with the pixel theme of the game
-// Make sure how to play button works
 // Implement a simple custom algoritm.
-// Change the background image
 
 // Maybes:
 // Ability to change player name
@@ -12,6 +9,9 @@
 // Add a timer.
 // Add a progress bar.
 // Change player names.
+// Make sure the buttons icons go with the pixel theme of the game
+// Make sure how to play button works
+// Change the background image
 
 // ===== Initializing Game =====
 const gameBoard = document.querySelector(".game-board");
