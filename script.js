@@ -29,6 +29,13 @@ modalResetButton.addEventListener("click", function () {
   resetGame();
 });
 
+const customAlgorithmButton = document.querySelector(
+  "#custom-algorithm-button"
+);
+customAlgorithmButton.addEventListener("click", function () {
+  customAlgorithmForPlacingDisc(currentPlayer);
+});
+
 for (let row = 0; row < 6; row++) {
   for (let col = 0; col < 7; col++) {
     if (row === 0) {
@@ -239,14 +246,30 @@ function checkForDiagonalWin(player, row, col) {
   return [];
 }
 
-// ===== Tie Logic =====
-function checkForTie() {
-  for (let row = 0; row < 6; row++) {
-    for (let col = 0; col < 7; col++) {
-      if (!board[row][col]) return false; // Found an empty spot, so not a tie
+// ===== Custom Algorithm Logic =====
+function customAlgorithmForPlacingDisc(player) {
+  // Calling isPotentialWinningMoveForPlayer() here:
+  // Check if there's a column where the opponent could win on their next move and block it
+  // Note: This is for future implementation, it will always return false for now:
+  for (let col = 0; col < 7; col++) {
+    if (isPotentialWinningMoveForPlayer(player === 1 ? 2 : 1, col)) {
+      placeDisc(player, col);
+      return;
     }
   }
-  return true; // No empty spots found, it's a tie
+  // For part 1, just place the disc in a random column:
+  // 2. If no winning column found for the opponent, place disc in a random column
+  let randomColumn;
+  do {
+    randomColumn = Math.floor(Math.random() * 7);
+  } while (board[0][randomColumn] !== null); // Ensure the column is not full
+
+  placeDisc(player, randomColumn);
+}
+
+// This function should return true if placing a disc in the given column would allow the given player to win on their next move
+function isPotentialWinningMoveForPlayer(testPlayer, col) {
+  return false;
 }
 
 // ===== End Game Logic =====
@@ -275,6 +298,15 @@ function resetGame() {
 }
 
 // ===== Other Helper funtions=====
+function checkForTie() {
+  for (let row = 0; row < 6; row++) {
+    for (let col = 0; col < 7; col++) {
+      if (!board[row][col]) return false; // Found an empty spot, so not a tie
+    }
+  }
+  return true; // No empty spots found, it's a tie
+}
+
 function switchTurn() {
   currentPlayer = currentPlayer === 1 ? 2 : 1;
   updateUI();
