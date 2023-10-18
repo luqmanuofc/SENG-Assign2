@@ -1,5 +1,5 @@
 // Todo:
-// Add Win/Tie screens instead of alerts
+// Add Win/Tie screens instead of alerts (Done)
 // Make sure the buttons icons go with the pixel theme of the game
 // Make sure how to play button works
 // Implement a simple custom algoritm.
@@ -141,88 +141,115 @@ function highlightWinningDiscs(winningCells) {
 }
 
 function checkForWin(player, row, col) {
-  return (
-    checkForHorizontalWin(player, row) ||
-    checkForDiagonalWin(player, row, col) ||
-    checkForVerticalWin(player, col)
-  );
+  let winningCells = checkForHorizontalWin(player, row);
+  if (winningCells.length >= 4) {
+    highlightWinningDiscs(winningCells);
+    return true;
+  }
+
+  winningCells = checkForVerticalWin(player, col);
+  if (winningCells.length >= 4) {
+    highlightWinningDiscs(winningCells);
+    return true;
+  }
+
+  winningCells = checkForDiagonalWin(player, row, col);
+  if (winningCells.length >= 4) {
+    highlightWinningDiscs(winningCells);
+    return true;
+  }
+
+  return false;
 }
 
 function checkForHorizontalWin(player, row) {
-  let count = 0;
+  const winningCells = [];
   for (let j = 0; j < 7; j++) {
     if (board[row][j] === player) {
-      count++;
-      if (count === 4) return true;
+      winningCells.push([row, j]);
+      if (winningCells.length === 4) {
+        return winningCells;
+      }
     } else {
-      count = 0;
+      winningCells.length = 0;
     }
   }
-  return false;
+  return [];
 }
 
 function checkForVerticalWin(player, col) {
-  let count = 0;
+  const winningCells = [];
   for (let i = 0; i < 6; i++) {
     if (board[i][col] === player) {
-      count++;
-      if (count === 4) return true;
+      winningCells.push([i, col]);
+      if (winningCells.length === 4) {
+        return winningCells;
+      }
     } else {
-      count = 0;
+      winningCells.length = 0;
     }
   }
-  return false;
+  return [];
 }
 
 function checkForDiagonalWin(player, row, col) {
+  const winningCells = [[row, col]]; // Start with the last placed disc
+
   // Check for Diagonal from bottom-left to top-right (`/` direction)
-  let count = 1;
 
   // Check below-left of the placed disc
   for (let i = row + 1, j = col - 1; i < 6 && j >= 0; i++, j--) {
     if (board[i][j] === player) {
-      count++;
-      if (count === 4) return true;
+      winningCells.push([i, j]);
     } else {
       break;
     }
   }
 
   // Check above-right of the placed disc
-  for (let i = row - 1, j = col + 1; i >= 0 && j < 7; i--, j++) {
+  for (
+    let i = row - 1, j = col + 1;
+    i >= 0 && j < 7 && winningCells.length < 4;
+    i--, j++
+  ) {
     if (board[i][j] === player) {
-      count++;
-      if (count === 4) return true;
+      winningCells.push([i, j]);
     } else {
       break;
     }
   }
 
-  count = 1; // reset count for the next diagonal check
+  if (winningCells.length >= 4) return winningCells;
+
+  winningCells.length = 1; // Reset winningCells to only the last placed disc
 
   // Check for Diagonal from bottom-right to top-left (`\` direction)
 
   // Check below-right of the placed disc
   for (let i = row + 1, j = col + 1; i < 6 && j < 7; i++, j++) {
     if (board[i][j] === player) {
-      count++;
-      if (count === 4) return true;
+      winningCells.push([i, j]);
     } else {
       break;
     }
   }
 
   // Check above-left of the placed disc
-  for (let i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+  for (
+    let i = row - 1, j = col - 1;
+    i >= 0 && j >= 0 && winningCells.length < 4;
+    i--, j--
+  ) {
     if (board[i][j] === player) {
-      count++;
-      if (count === 4) return true;
+      winningCells.push([i, j]);
     } else {
       break;
     }
   }
 
-  return false;
+  if (winningCells.length >= 4) return winningCells;
+
+  return [];
 }
 
 function checkForTie() {
