@@ -53,11 +53,11 @@ body {
 
 .down-icon {
     cursor: pointer;
-    transition: transform 0.3s;  /* smoothens the hover effect transition */
+    transition: transform 0.3s;  
 }
 
 .down-icon:hover {
-    animation: pulse 0.5s infinite;  /* pulse animation over 0.5 seconds and repeats indefinitely */
+    animation: pulse 0.5s infinite;  
 }
 
 
@@ -98,7 +98,8 @@ body {
 }
 
 .cell.winning {
-    border: 2px solid gold; /* or any other highlighting style you prefer */
+    border: 2px solid white;
+    animation: pulse 2s infinite;  
 }
 
 
