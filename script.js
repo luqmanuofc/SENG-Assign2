@@ -1,9 +1,9 @@
 // Todo:
 // Add Win/Tie screens instead of alerts (Done)
+// highlight the winning discs (Done)
 // Make sure the buttons icons go with the pixel theme of the game
 // Make sure how to play button works
 // Implement a simple custom algoritm.
-// highlight the winning discs
 // Change the background image
 
 // Maybes:
@@ -239,16 +239,6 @@ function checkForDiagonalWin(player, row, col) {
   return [];
 }
 
-function highlightWinningDiscs(winningCells) {
-  for (const cell of winningCells) {
-    const [row, col] = cell;
-    const cellElement = document.querySelector(
-      `[data-row='${row}'][data-col='${col}']`
-    );
-    cellElement.classList.add("winning");
-  }
-}
-
 // ===== Tie Logic =====
 function checkForTie() {
   for (let row = 0; row < 6; row++) {
@@ -308,5 +298,15 @@ function createCell(row, col, withIcon = false) {
     cell.setAttribute("data-col", col);
     cell.addEventListener("click", cellClicked);
     gameBoard.appendChild(cell);
+  }
+}
+
+function highlightWinningDiscs(winningCells) {
+  for (const cell of winningCells) {
+    const [row, col] = cell;
+    const cellElement = document.querySelector(
+      `[data-row='${row}'][data-col='${col}']`
+    );
+    cellElement.classList.add("winning");
   }
 }
