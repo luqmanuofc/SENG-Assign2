@@ -13,6 +13,7 @@
 // Add a progress bar.
 // Change player names.
 
+// ===== Initializing Game =====
 const gameBoard = document.querySelector(".game-board");
 const gameBoardIconsRow = document.querySelector(".game-board-icons-row");
 
@@ -50,27 +51,7 @@ const board = Array(6)
 
 updateUI();
 
-function createCell(row, col, withIcon = false) {
-  const cell = document.createElement("div");
-
-  if (withIcon) {
-    const icon = document.createElement("img");
-    icon.src = "./assets/downArrow.svg";
-    icon.classList.add("down-icon");
-    icon.setAttribute("data-col", col);
-    icon.addEventListener("click", cellClicked);
-    cell.appendChild(icon);
-    cell.classList.add("game-board-icon");
-    gameBoardIconsRow.appendChild(cell);
-  } else {
-    cell.classList.add("cell");
-    cell.setAttribute("data-row", row);
-    cell.setAttribute("data-col", col);
-    cell.addEventListener("click", cellClicked);
-    gameBoard.appendChild(cell);
-  }
-}
-
+// ===== Game Logic =====
 function placeDisc(player, column) {
   pending = true;
   let targetRow = -1;
@@ -88,17 +69,6 @@ function placeDisc(player, column) {
   }
 }
 
-function showGameEndModal(player) {
-  const modal = document.getElementById("end-game-modal");
-  const winningMessage = document.getElementById("end-game-message");
-  if (player === -1) {
-    winningMessage.textContent = `It's a tie!`;
-  } else {
-    winningMessage.textContent = `Player ${player} wins!`;
-  }
-  modal.style.display = "flex";
-}
-
 function animateFallingDisc(player, currentRow, targetRow, column) {
   if (currentRow <= targetRow) {
     const cell = document.querySelector(
@@ -114,7 +84,7 @@ function animateFallingDisc(player, currentRow, targetRow, column) {
 
       // Go to next cell in the column
       animateFallingDisc(player, currentRow + 1, targetRow, column);
-    }, 50); // 50ms for each cell animation, adjust for speed
+    }, 50); // 50ms for each cell animation
   } else {
     // Animation ended, update board state and UI as previously
     board[targetRow][column] = player;
@@ -130,16 +100,33 @@ function animateFallingDisc(player, currentRow, targetRow, column) {
   }
 }
 
-function highlightWinningDiscs(winningCells) {
-  for (const cell of winningCells) {
-    const [row, col] = cell;
-    const cellElement = document.querySelector(
-      `[data-row='${row}'][data-col='${col}']`
-    );
-    cellElement.classList.add("winning");
+function updateUI() {
+  // Update the board visuals based on the board array
+  for (let row = 0; row < 6; row++) {
+    for (let col = 0; col < 7; col++) {
+      const cell = document.querySelector(
+        `[data-row='${row}'][data-col='${col}']`
+      );
+      if (board[row][col] === 1) {
+        cell.classList.add("player1");
+      } else if (board[row][col] === 2) {
+        cell.classList.add("player2");
+      } else {
+        cell.classList.remove("player1", "player2");
+      }
+    }
   }
+  // Update the turn indicator
+  const infoCell = document.querySelector(".info .info-box .cell");
+  const infoPlayer = document.querySelector(".info .info-player");
+  infoPlayer.textContent = `Player ${currentPlayer}'s turn:`;
+  infoCell.classList.remove("player1", "player2");
+  infoCell.classList.add(`player${currentPlayer}`);
+
+  return;
 }
 
+// ===== Winning Logic =====
 function checkForWin(player, row, col) {
   let winningCells = checkForHorizontalWin(player, row);
   if (winningCells.length >= 4) {
@@ -252,6 +239,17 @@ function checkForDiagonalWin(player, row, col) {
   return [];
 }
 
+function highlightWinningDiscs(winningCells) {
+  for (const cell of winningCells) {
+    const [row, col] = cell;
+    const cellElement = document.querySelector(
+      `[data-row='${row}'][data-col='${col}']`
+    );
+    cellElement.classList.add("winning");
+  }
+}
+
+// ===== Tie Logic =====
 function checkForTie() {
   for (let row = 0; row < 6; row++) {
     for (let col = 0; col < 7; col++) {
@@ -261,9 +259,16 @@ function checkForTie() {
   return true; // No empty spots found, it's a tie
 }
 
-function switchTurn() {
-  currentPlayer = currentPlayer === 1 ? 2 : 1;
-  updateUI();
+// ===== End Game Logic =====
+function showGameEndModal(player) {
+  const modal = document.getElementById("end-game-modal");
+  const winningMessage = document.getElementById("end-game-message");
+  if (player === -1) {
+    winningMessage.textContent = `It's a tie!`;
+  } else {
+    winningMessage.textContent = `Player ${player} wins!`;
+  }
+  modal.style.display = "flex";
 }
 
 function resetGame() {
@@ -279,28 +284,29 @@ function resetGame() {
   updateUI();
 }
 
-function updateUI() {
-  // Update the board visuals based on the board array
-  for (let row = 0; row < 6; row++) {
-    for (let col = 0; col < 7; col++) {
-      const cell = document.querySelector(
-        `[data-row='${row}'][data-col='${col}']`
-      );
-      if (board[row][col] === 1) {
-        cell.classList.add("player1");
-      } else if (board[row][col] === 2) {
-        cell.classList.add("player2");
-      } else {
-        cell.classList.remove("player1", "player2");
-      }
-    }
-  }
-  // Update the turn indicator
-  const infoCell = document.querySelector(".info .info-box .cell");
-  const infoPlayer = document.querySelector(".info .info-player");
-  infoPlayer.textContent = `Player ${currentPlayer}'s turn:`;
-  infoCell.classList.remove("player1", "player2");
-  infoCell.classList.add(`player${currentPlayer}`);
+// ===== Other Helper funtions=====
+function switchTurn() {
+  currentPlayer = currentPlayer === 1 ? 2 : 1;
+  updateUI();
+}
 
-  return;
+function createCell(row, col, withIcon = false) {
+  const cell = document.createElement("div");
+
+  if (withIcon) {
+    const icon = document.createElement("img");
+    icon.src = "./assets/downArrow.svg";
+    icon.classList.add("down-icon");
+    icon.setAttribute("data-col", col);
+    icon.addEventListener("click", cellClicked);
+    cell.appendChild(icon);
+    cell.classList.add("game-board-icon");
+    gameBoardIconsRow.appendChild(cell);
+  } else {
+    cell.classList.add("cell");
+    cell.setAttribute("data-row", row);
+    cell.setAttribute("data-col", col);
+    cell.addEventListener("click", cellClicked);
+    gameBoard.appendChild(cell);
+  }
 }
