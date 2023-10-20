@@ -22,9 +22,7 @@
       <h1 class="title">4 in a row</h1>
       <div class="navbar-actions">
         <button id="navbar-reset"><i class="fas fa-redo"></i></button>
-        <a href="https://en.wikipedia.org/wiki/Connect_Four" target="_blank">
-          How to Play?
-        </a>
+        <button id="game-rules-button">Game Rules</button>
       </div>
     </div>
     <div class="info">
@@ -46,6 +44,33 @@
       <div class="modal-content">
         <h2 id="end-game-message"></h2>
         <button id="modal-reset">Restart Game</button>
+      </div>
+    </div>
+
+    <div id="game-rules-modal" class="modal">
+      <div class="modal-content">
+        <h1>Rules of the Game:</h1>
+        <ul>
+          <li>
+            The game is played on a vertical board which has seven hollow
+            columns and six rows.
+          </li>
+          <li>Each player has a set of discs in a distinct color.</li>
+          <li>
+            Players take turns dropping one disc from the top into any of the
+            seven columns. The disc then occupies the lowest available space
+            within the column.
+          </li>
+          <li>
+            The objective of the game is to be the first to form a horizontal,
+            vertical, or diagonal line of four of one's own discs.
+          </li>
+          <li>
+            The game ends in a tie if the entire board is filled with discs and
+            no player has four in a row.
+          </li>
+        </ul>
+        <button id="hide-game-rules-modal-button">Back</button>
       </div>
     </div>
 

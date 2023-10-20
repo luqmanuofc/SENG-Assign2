@@ -1,16 +1,16 @@
 // Todo:
 // Add Win/Tie screens instead of alerts (Done)
 // highlight the winning discs (Done)
-// Implement a simple custom algoritm.
+// Implement a simple custom algoritm. (Done)
+// Comment code
+// Add stack-overflow reference links
 
 // Maybes:
 // Ability to change player name
 // Add the abity to choose colors for the players
 // Add a timer.
-// Add a progress bar.
 // Change player names.
 // Make sure the buttons icons go with the pixel theme of the game
-// Make sure how to play button works
 // Change the background image
 
 // ===== Initializing Game =====
@@ -27,6 +27,17 @@ const modalResetButton = document.querySelector("#modal-reset");
 modalResetButton.addEventListener("click", function () {
   document.getElementById("end-game-modal").style.display = "none";
   resetGame();
+});
+
+const gameRulesButton = document.querySelector("#game-rules-button");
+gameRulesButton.addEventListener("click", function () {
+  document.getElementById("game-rules-modal").style.display = "flex";
+});
+const hideGameRulesModalButton = document.querySelector(
+  "#hide-game-rules-modal-button"
+);
+hideGameRulesModalButton.addEventListener("click", function () {
+  document.getElementById("game-rules-modal").style.display = "none";
 });
 
 const customAlgorithmButton = document.querySelector(

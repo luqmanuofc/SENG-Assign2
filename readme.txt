@@ -18,7 +18,7 @@ Game Objective: To be the first to connect four of one's own discs of the same c
 
 Rules of the Game:
     1. The game is played on a vertical board which has seven hollow columns and six rows.
-    2. Each player has a set of discs in a distinct color (typically red or yellow).
+    2. Each player has a set of discs in a distinct color.
     3. Players take turns dropping one disc from the top into any of the seven columns. The disc then occupies the lowest available space within the column.
     4. The objective of the game is to be the first to form a horizontal, vertical, or diagonal line of four of one's own discs.
     5. The game ends in a tie if the entire board is filled with discs and no player has four in a row.
