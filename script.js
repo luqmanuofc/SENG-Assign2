@@ -44,6 +44,7 @@ const customAlgorithmButton = document.querySelector(
   "#custom-algorithm-button"
 );
 customAlgorithmButton.addEventListener("click", function () {
+  if (pending) return;
   customAlgorithmForPlacingDisc(currentPlayer);
 });
 
