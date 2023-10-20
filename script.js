@@ -57,6 +57,8 @@ for (let row = 0; row < 6; row++) {
   }
 }
 
+// Handles the click event on the board's cells, determining the column clicked and placing a disc for the current player.
+// Params: e (Event object)
 function cellClicked(e) {
   if (pending) return;
   const col = parseInt(e.target.getAttribute("data-col"));
@@ -71,6 +73,9 @@ const board = Array(6)
 updateUI();
 
 // ===== Game Logic =====
+
+// Places the disc of the current player into the selected column. Determines the correct row and initiates disc falling animation.
+// Params: player (Number: 1 or 2), column (Number: 0-6)
 function placeDisc(player, column) {
   pending = true;
   let targetRow = -1;
@@ -88,6 +93,8 @@ function placeDisc(player, column) {
   }
 }
 
+// Animates the falling disc in the specified column until it reaches the target row.
+// Params: player (Number: 1 or 2), currentRow (Number: 0-5), targetRow (Number: 0-5), column (Number: 0-6)
 function animateFallingDisc(player, currentRow, targetRow, column) {
   if (currentRow <= targetRow) {
     const cell = document.querySelector(
@@ -119,6 +126,7 @@ function animateFallingDisc(player, currentRow, targetRow, column) {
   }
 }
 
+// Updates the visual state of the board and the current player's turn indicator.
 function updateUI() {
   // Update the board visuals based on the board array
   for (let row = 0; row < 6; row++) {
@@ -146,6 +154,10 @@ function updateUI() {
 }
 
 // ===== Winning Logic =====
+
+// Checks if placing a disc by the specified player at the given row and column results in a win.
+// Params: player (Number: 1 or 2), row (Number: 0-5), col (Number: 0-6)
+// Returns: boolean indicating if the move is a winning one.
 function checkForWin(player, row, col) {
   let winningCells = checkForHorizontalWin(player, row);
   if (winningCells.length >= 4) {
@@ -168,6 +180,9 @@ function checkForWin(player, row, col) {
   return false;
 }
 
+// Checks for a horizontal win based on the player's disc placed in the given row.
+// Params: player (Number: 1 or 2), row (Number: 0-5)
+// Returns: Array of winning cell coordinates. Empty array if no win.
 function checkForHorizontalWin(player, row) {
   const winningCells = [];
   for (let j = 0; j < 7; j++) {
@@ -183,6 +198,9 @@ function checkForHorizontalWin(player, row) {
   return [];
 }
 
+// Checks for a vertical win based on the player's disc placed in the given column.
+// Params: player (Number: 1 or 2), col (Number: 0-6)
+// Returns: Array of winning cell coordinates. Empty array if no win.
 function checkForVerticalWin(player, col) {
   const winningCells = [];
   for (let i = 0; i < 6; i++) {
@@ -198,6 +216,10 @@ function checkForVerticalWin(player, col) {
   return [];
 }
 
+// Checks for a diagonal win based on the player's disc placed at the given row and column.
+// Params: player (Number: 1 or 2), row (Number: 0-5), col (Number: 0-6)
+// Returns: Array of winning cell coordinates. Empty array if no win.
+// Reference: https://codereview.stackexchange.com/questions/150518/connect-four-code-to-check-for-horizontals-verticals-and-diagonals
 function checkForDiagonalWin(player, row, col) {
   const winningCells = [[row, col]]; // Start with the last placed disc
 
@@ -259,6 +281,9 @@ function checkForDiagonalWin(player, row, col) {
 }
 
 // ===== Custom Algorithm Logic =====
+
+// Custom algorithm to automatically place a disc for the current player.
+// Params: player (Number: 1 or 2)
 function customAlgorithmForPlacingDisc(player) {
   // Calling isPotentialWinningMoveForPlayer() here:
   // Check if there's a column where the opponent could win on their next move and block it
@@ -279,12 +304,18 @@ function customAlgorithmForPlacingDisc(player) {
   placeDisc(player, randomColumn);
 }
 
-// This function should return true if placing a disc in the given column would allow the given player to win on their next move
+// Simulates the result of placing a disc by testPlayer in the given column to check if it would lead to a win.
+// Params: testPlayer (Number: 1 or 2), col (Number: 0-6)
+// Returns: boolean indicating if the move would lead to a win.
+// NOT IMPLEMENTED YET: Always returns false for now.
 function isPotentialWinningMoveForPlayer(testPlayer, col) {
   return false;
 }
 
 // ===== End Game Logic =====
+
+// Displays the game end modal with the appropriate message based on the game result.
+// Params: player (Number: 1, 2, or -1 for a tie)
 function showGameEndModal(player) {
   const modal = document.getElementById("end-game-modal");
   const winningMessage = document.getElementById("end-game-message");
@@ -296,6 +327,7 @@ function showGameEndModal(player) {
   modal.style.display = "flex";
 }
 
+// Resets the game board and initializes the current player to 1.
 function resetGame() {
   for (let row = 0; row < 6; row++) {
     for (let col = 0; col < 7; col++) {
@@ -310,6 +342,9 @@ function resetGame() {
 }
 
 // ===== Other Helper funtions=====
+
+// Checks if all cells on the board are filled, indicating a tie.
+// Returns: boolean indicating if the game is a tie.
 function checkForTie() {
   for (let row = 0; row < 6; row++) {
     for (let col = 0; col < 7; col++) {
@@ -319,11 +354,14 @@ function checkForTie() {
   return true; // No empty spots found, it's a tie
 }
 
+// Switches the current player's turn.
 function switchTurn() {
   currentPlayer = currentPlayer === 1 ? 2 : 1;
   updateUI();
 }
 
+// Creates a cell element on the game board, optionally with an icon.
+// Params: row (Number: 0-5), col (Number: 0-6), withIcon (Boolean: default=false)
 function createCell(row, col, withIcon = false) {
   const cell = document.createElement("div");
 
@@ -345,6 +383,8 @@ function createCell(row, col, withIcon = false) {
   }
 }
 
+// Highlights the discs on the board that form the winning combination.
+// Params: winningCells (Array of cell coordinates)
 function highlightWinningDiscs(winningCells) {
   for (const cell of winningCells) {
     const [row, col] = cell;
