@@ -1,6 +1,6 @@
 
 Course: SENG 513
-Date: Oct 18, 2023
+Date: Oct 20, 2023
 Assignment: 2
 Name: Luqman Bukhari
 UCID: 30105752
@@ -10,7 +10,7 @@ GAME OVERVIEW
 
 Title: 4 in a Row
 
-Target Platform: Desktop
+Target Platform: Both - Desktop & Mobile
 
 Game Genre: Strategy/Puzzle
 

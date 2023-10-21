@@ -1,14 +1,8 @@
-// Todo:
-// Mobile friendly (DONE)
-// Add submission info
-
-// Maybes:
-// Ability to change player name
-// Add the abity to choose colors for the players
-// Add a timer.
-// Change player names.
-// Make sure the buttons icons go with the pixel theme of the game
-// Change the background image
+// Course: SENG 513
+// Date: Oct 20, 2023
+// Assignment: 2
+// Name: Luqman Bukhari
+// UCID: 30105752
 
 // ===== Initializing Game =====
 const gameBoard = document.querySelector(".game-board");
