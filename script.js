@@ -1,9 +1,6 @@
 // Todo:
-// Add Win/Tie screens instead of alerts (Done)
-// highlight the winning discs (Done)
-// Implement a simple custom algoritm. (Done)
-// Comment code
-// Add stack-overflow reference links
+// Mobile friendly (DONE)
+// Add submission info
 
 // Maybes:
 // Ability to change player name

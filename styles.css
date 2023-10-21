@@ -1,11 +1,7 @@
 body {
     text-align: center;
     margin-top: 50px;
-    font-family: 'VT323', sans-serif;
-    /* background: url("./assets/background3.png");
-    background-size: 100% 100%;
-    background-repeat: no-repeat; */
-    
+    font-family: 'VT323', sans-serif;    
 }
 
 .navbar {
@@ -14,7 +10,8 @@ body {
     justify-content: center;
     position: relative;
   }
-  
+
+
   .navbar .title {
     margin: 0;
   }
@@ -31,6 +28,26 @@ body {
     opacity: 0; 
     animation: fadeIn 5s forwards;
 }
+
+/* Media query for mobile */
+@media (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .navbar .title {
+      margin-bottom: 10px;
+    }
+    
+    .navbar-actions {
+      position: static;  /* remove the absolute positioning */
+      flex-direction: column;
+      align-items: center;
+      gap: 5px; 
+    }
+  }
+  
 
 .game-board, .game-board-icons-row {
     width: 350px;
@@ -98,7 +115,7 @@ body {
 }
 
 .cell.falling {
-    animation: slideDown 0.5s forwards; /* Play the animation once and retain the final state */
+    animation: slideDown 0.5s forwards; 
 }
 
 .cell.winning {
@@ -130,6 +147,8 @@ body {
  }
   
 
+/* Animations */
+/* REFERENCE: https://www.w3schools.com/cssref/css3_pr_animation-keyframes.php */
 @keyframes slideDown {
     0% {
         transform: translateY(-100%);
@@ -144,7 +163,7 @@ body {
         transform: scale(1);
     }
     50% {
-        transform: scale(1.1);  /* enlarge the icon by 10% */
+        transform: scale(1.1);  
     }
     100% {
         transform: scale(1);
