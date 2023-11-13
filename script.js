@@ -149,20 +149,20 @@ function updateUI() {
 // Checks if placing a disc by the specified player at the given row and column results in a win.
 // Params: player (Number: 1 or 2), row (Number: 0-5), col (Number: 0-6)
 // Returns: boolean indicating if the move is a winning one.
-function checkForWin(player, row, col) {
-  let winningCells = checkForHorizontalWin(player, row);
+function checkForWin(player, row, col, _board = board) {
+  let winningCells = checkForHorizontalWin(player, row, _board);
   if (winningCells.length >= 4) {
     highlightWinningDiscs(winningCells);
     return true;
   }
 
-  winningCells = checkForVerticalWin(player, col);
+  winningCells = checkForVerticalWin(player, col, _board);
   if (winningCells.length >= 4) {
     highlightWinningDiscs(winningCells);
     return true;
   }
 
-  winningCells = checkForDiagonalWin(player, row, col);
+  winningCells = checkForDiagonalWin(player, row, col, _board);
   if (winningCells.length >= 4) {
     highlightWinningDiscs(winningCells);
     return true;
@@ -174,10 +174,10 @@ function checkForWin(player, row, col) {
 // Checks for a horizontal win based on the player's disc placed in the given row.
 // Params: player (Number: 1 or 2), row (Number: 0-5)
 // Returns: Array of winning cell coordinates. Empty array if no win.
-function checkForHorizontalWin(player, row) {
+function checkForHorizontalWin(player, row, _board) {
   const winningCells = [];
   for (let j = 0; j < 7; j++) {
-    if (board[row][j] === player) {
+    if (_board[row][j] === player) {
       winningCells.push([row, j]);
       if (winningCells.length === 4) {
         return winningCells;
@@ -192,10 +192,10 @@ function checkForHorizontalWin(player, row) {
 // Checks for a vertical win based on the player's disc placed in the given column.
 // Params: player (Number: 1 or 2), col (Number: 0-6)
 // Returns: Array of winning cell coordinates. Empty array if no win.
-function checkForVerticalWin(player, col) {
+function checkForVerticalWin(player, col, _board) {
   const winningCells = [];
   for (let i = 0; i < 6; i++) {
-    if (board[i][col] === player) {
+    if (_board[i][col] === player) {
       winningCells.push([i, col]);
       if (winningCells.length === 4) {
         return winningCells;
@@ -211,14 +211,14 @@ function checkForVerticalWin(player, col) {
 // Params: player (Number: 1 or 2), row (Number: 0-5), col (Number: 0-6)
 // Returns: Array of winning cell coordinates. Empty array if no win.
 // Reference: https://codereview.stackexchange.com/questions/150518/connect-four-code-to-check-for-horizontals-verticals-and-diagonals
-function checkForDiagonalWin(player, row, col) {
+function checkForDiagonalWin(player, row, col, _board) {
   const winningCells = [[row, col]]; // Start with the last placed disc
 
   // Check for Diagonal from bottom-left to top-right (`/` direction)
 
   // Check below-left of the placed disc
   for (let i = row + 1, j = col - 1; i < 6 && j >= 0; i++, j--) {
-    if (board[i][j] === player) {
+    if (_board[i][j] === player) {
       winningCells.push([i, j]);
     } else {
       break;
@@ -231,7 +231,7 @@ function checkForDiagonalWin(player, row, col) {
     i >= 0 && j < 7 && winningCells.length < 4;
     i--, j++
   ) {
-    if (board[i][j] === player) {
+    if (_board[i][j] === player) {
       winningCells.push([i, j]);
     } else {
       break;
@@ -246,7 +246,7 @@ function checkForDiagonalWin(player, row, col) {
 
   // Check below-right of the placed disc
   for (let i = row + 1, j = col + 1; i < 6 && j < 7; i++, j++) {
-    if (board[i][j] === player) {
+    if (_board[i][j] === player) {
       winningCells.push([i, j]);
     } else {
       break;
@@ -259,7 +259,7 @@ function checkForDiagonalWin(player, row, col) {
     i >= 0 && j >= 0 && winningCells.length < 4;
     i--, j--
   ) {
-    if (board[i][j] === player) {
+    if (_board[i][j] === player) {
       winningCells.push([i, j]);
     } else {
       break;
