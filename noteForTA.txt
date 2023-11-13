@@ -1,0 +1,47 @@
+Course: SENG 513
+Date: November 13th, 2023
+Assignment: 3
+Name: Luqman Bukhari
+UCID: 30105752 
+--
+Hey Nami, I'm adding this note becuase you mentioned in our email converstation that you needed to be reminded about the fact that I added most of my javascript functionality during assignment 2 submission and for assignment 3, I just added the implementation of the custom algorithm.
+
+Here's a record of our email converstaion:
+***************************************************************************
+
+From: Seyed Nami Modarressi <seyednami.modarressi@ucalgary.ca>
+Sent: 10 November 2023 10:59
+To: Luqman Bukhari <luqman.bukhari@ucalgary.ca>
+Subject: Re: Clarification on JavaScript Inclusion in SENG 513 Assignment 2 and Further Guidance for Assignment 3
+ 
+Hi Luqman, and sorry for the late reply.
+
+It's fine to implement the functions for assignment 2. As you mentioned, you only have one function left for assignment 3. Please check your game, and if there is any documentation you want to add, include it for assignment 3. Write a note in your repository mentioning this, so I remember when grading. But don't worry; it doesn't affect your grade.
+
+Best,
+Nami
+
+***************************************************************************
+ 
+
+From: Luqman Bukhari <luqman.bukhari@ucalgary.ca>
+Date: Wednesday, November 8, 2023 at 11:09
+To: Seyed Nami Modarressi <seyednami.modarressi@ucalgary.ca>
+Subject: Clarification on JavaScript Inclusion in SENG 513 Assignment 2 and Further Guidance for Assignment 3
+
+Hi Nami,
+
+I hope this message finds you well. I am writing to seek clarification regarding Assignment 2 for the SENG 513 course and to request additional guidance for Assignment 3.
+
+Regarding Assignment 2, during our initial conversation, my understanding was that including the JavaScript implementation of functions and not just function stubs would be acceptable when submitting Assignment 2. Based on this understanding, I included the JavaScript code with my recent submission. However, I've since heard from other students that this may not have been in line with the assignment's instructions. 
+
+Could you please confirm if including the JavaScript code with Assignment 2 will impact my grade? I included it under the impression that it was permitted, as per our earlier discussion in the tutorial a week before the submission where we talked briefly about my '4 in a row' game and submission requirements.
+
+Moving on to Assignment 3, I am aware that I have one function left unimplemented from Assignment 2, which is just a smart custom algorithm for dropping the discs in my '4 in a row game',  which I intend to complete. Beyond this, I would appreciate your advice on any additional aspects you recommend I focus on or any specific requirements I should be particularly mindful of in completing Assignment 3.
+
+Thank you for your time, and I look forward to your reply.
+
+Warm regards,
+Luqman Bukhari, 
+UCID: 30105752
+Github: luqmanuofc
