@@ -147,7 +147,7 @@ function updateUI() {
 // ===== Winning Logic =====
 
 // Checks if placing a disc by the specified player at the given row and column results in a win.
-// Params: player (Number: 1 or 2), row (Number: 0-5), col (Number: 0-6)
+// Params: player (Number: 1 or 2), row (Number: 0-5), col (Number: 0-6), _board (2D Array, optional, default: global board) [its either the global board or a clone of it for the custom algorithm checking for potential win]
 // Returns: boolean indicating if the move is a winning one.
 function checkForWin(player, row, col, _board = board) {
   let winningCells = checkForHorizontalWin(player, row, _board);
@@ -172,7 +172,7 @@ function checkForWin(player, row, col, _board = board) {
 }
 
 // Checks for a horizontal win based on the player's disc placed in the given row.
-// Params: player (Number: 1 or 2), row (Number: 0-5)
+// Params: player (Number: 1 or 2), row (Number: 0-5), _board (2D Array)
 // Returns: Array of winning cell coordinates. Empty array if no win.
 function checkForHorizontalWin(player, row, _board) {
   const winningCells = [];
@@ -190,7 +190,7 @@ function checkForHorizontalWin(player, row, _board) {
 }
 
 // Checks for a vertical win based on the player's disc placed in the given column.
-// Params: player (Number: 1 or 2), col (Number: 0-6)
+// Params: player (Number: 1 or 2), col (Number: 0-6), _board (2D Array)
 // Returns: Array of winning cell coordinates. Empty array if no win.
 function checkForVerticalWin(player, col, _board) {
   const winningCells = [];
@@ -208,7 +208,7 @@ function checkForVerticalWin(player, col, _board) {
 }
 
 // Checks for a diagonal win based on the player's disc placed at the given row and column.
-// Params: player (Number: 1 or 2), row (Number: 0-5), col (Number: 0-6)
+// Params: player (Number: 1 or 2), row (Number: 0-5), col (Number: 0-6), _board (2D Array)
 // Returns: Array of winning cell coordinates. Empty array if no win.
 // Reference: https://codereview.stackexchange.com/questions/150518/connect-four-code-to-check-for-horizontals-verticals-and-diagonals
 function checkForDiagonalWin(player, row, col, _board) {
@@ -298,7 +298,6 @@ function customAlgorithmForPlacingDisc(player) {
 // Simulates the result of placing a disc by testPlayer in the given column to check if it would lead to a win.
 // Params: testPlayer (Number: 1 or 2), col (Number: 0-6)
 // Returns: boolean indicating if the move would lead to a win.
-// NOT IMPLEMENTED YET: Always returns false for now.
 function isPotentialWinningMoveForPlayer(testPlayer, col) {
   let testBoard = board.map((row) => row.slice()); // Clone the board
 
@@ -315,7 +314,7 @@ function isPotentialWinningMoveForPlayer(testPlayer, col) {
 
   testBoard[targetRow][col] = testPlayer; // Temporarily place disc
 
-  // Check if this move results in a win for testPlayer
+  // Check if this move results in a win for testPlayer on testBoard
   return checkForWin(testPlayer, targetRow, col, testBoard);
 }
 
