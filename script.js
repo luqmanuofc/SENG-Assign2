@@ -152,19 +152,19 @@ function updateUI() {
 function checkForWin(player, row, col, _board = board) {
   let winningCells = checkForHorizontalWin(player, row, _board);
   if (winningCells.length >= 4) {
-    highlightWinningDiscs(winningCells);
+    if (_board === board) highlightWinningDiscs(winningCells); // Don't highlight if checking for potential win
     return true;
   }
 
   winningCells = checkForVerticalWin(player, col, _board);
   if (winningCells.length >= 4) {
-    highlightWinningDiscs(winningCells);
+    if (_board === board) highlightWinningDiscs(winningCells); // Don't highlight if checking for potential win
     return true;
   }
 
   winningCells = checkForDiagonalWin(player, row, col, _board);
   if (winningCells.length >= 4) {
-    highlightWinningDiscs(winningCells);
+    if (_board === board) highlightWinningDiscs(winningCells); // Don't highlight if checking for potential win
     return true;
   }
 
@@ -278,9 +278,9 @@ function checkForDiagonalWin(player, row, col, _board) {
 function customAlgorithmForPlacingDisc(player) {
   // Calling isPotentialWinningMoveForPlayer() here:
   // Check if there's a column where the opponent could win on their next move and block it
-  // Note: This is for future implementation, it will always return false for now:
   for (let col = 0; col < 7; col++) {
     if (isPotentialWinningMoveForPlayer(player === 1 ? 2 : 1, col)) {
+      // Found a winning column for the opponent, block it
       placeDisc(player, col);
       return;
     }
@@ -300,7 +300,23 @@ function customAlgorithmForPlacingDisc(player) {
 // Returns: boolean indicating if the move would lead to a win.
 // NOT IMPLEMENTED YET: Always returns false for now.
 function isPotentialWinningMoveForPlayer(testPlayer, col) {
-  return false;
+  let testBoard = board.map((row) => row.slice()); // Clone the board
+
+  // Find the row where the disc would fall
+  let targetRow = -1;
+  for (let row = 5; row >= 0; row--) {
+    if (!testBoard[row][col]) {
+      targetRow = row;
+      break;
+    }
+  }
+
+  if (targetRow === -1) return false; // Column is full, can't place disc
+
+  testBoard[targetRow][col] = testPlayer; // Temporarily place disc
+
+  // Check if this move results in a win for testPlayer
+  return checkForWin(testPlayer, targetRow, col, testBoard);
 }
 
 // ===== End Game Logic =====
