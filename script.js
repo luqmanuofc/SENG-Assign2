@@ -5,36 +5,36 @@
 // UCID: 30105752
 
 // ===== Initializing Game =====
-const gameBoard = document.querySelector(".game-board");
-const gameBoardIconsRow = document.querySelector(".game-board-icons-row");
+const gameBoard = document.querySelector('.game-board');
+const gameBoardIconsRow = document.querySelector('.game-board-icons-row');
 
 let pending = false;
 
-const navbarResetButton = document.querySelector("#navbar-reset");
-navbarResetButton.addEventListener("click", function () {
+const navbarResetButton = document.querySelector('#navbar-reset');
+navbarResetButton.addEventListener('click', function () {
   resetGame();
 });
-const modalResetButton = document.querySelector("#modal-reset");
-modalResetButton.addEventListener("click", function () {
-  document.getElementById("end-game-modal").style.display = "none";
+const modalResetButton = document.querySelector('#modal-reset');
+modalResetButton.addEventListener('click', function () {
+  document.getElementById('end-game-modal').style.display = 'none';
   resetGame();
 });
 
-const gameRulesButton = document.querySelector("#game-rules-button");
-gameRulesButton.addEventListener("click", function () {
-  document.getElementById("game-rules-modal").style.display = "flex";
+const gameRulesButton = document.querySelector('#game-rules-button');
+gameRulesButton.addEventListener('click', function () {
+  document.getElementById('game-rules-modal').style.display = 'flex';
 });
 const hideGameRulesModalButton = document.querySelector(
-  "#hide-game-rules-modal-button"
+  '#hide-game-rules-modal-button'
 );
-hideGameRulesModalButton.addEventListener("click", function () {
-  document.getElementById("game-rules-modal").style.display = "none";
+hideGameRulesModalButton.addEventListener('click', function () {
+  document.getElementById('game-rules-modal').style.display = 'none';
 });
 
 const customAlgorithmButton = document.querySelector(
-  "#custom-algorithm-button"
+  '#custom-algorithm-button'
 );
-customAlgorithmButton.addEventListener("click", function () {
+customAlgorithmButton.addEventListener('click', function () {
   if (pending) return;
   customAlgorithmForPlacingDisc(currentPlayer);
 });
@@ -52,7 +52,7 @@ for (let row = 0; row < 6; row++) {
 // Params: e (Event object)
 function cellClicked(e) {
   if (pending) return;
-  const col = parseInt(e.target.getAttribute("data-col"));
+  const col = parseInt(e.target.getAttribute('data-col'));
   placeDisc(currentPlayer, col);
 }
 
@@ -93,11 +93,11 @@ function animateFallingDisc(player, currentRow, targetRow, column) {
     );
 
     // Temporarily show the disc at this cell
-    cell.classList.add(`player${player}`, "falling");
+    cell.classList.add(`player${player}`, 'falling');
 
     setTimeout(() => {
       // Remove temporary disc and continue animation to next cell
-      cell.classList.remove(`player${player}`, "falling");
+      cell.classList.remove(`player${player}`, 'falling');
 
       // Go to next cell in the column
       animateFallingDisc(player, currentRow + 1, targetRow, column);
@@ -126,19 +126,19 @@ function updateUI() {
         `[data-row='${row}'][data-col='${col}']`
       );
       if (board[row][col] === 1) {
-        cell.classList.add("player1");
+        cell.classList.add('player1');
       } else if (board[row][col] === 2) {
-        cell.classList.add("player2");
+        cell.classList.add('player2');
       } else {
-        cell.classList.remove("player1", "player2");
+        cell.classList.remove('player1', 'player2');
       }
     }
   }
   // Update the turn indicator
-  const infoCell = document.querySelector(".info .info-box .cell");
-  const infoPlayer = document.querySelector(".info .info-player");
+  const infoCell = document.querySelector('.info .info-box .cell');
+  const infoPlayer = document.querySelector('.info .info-player');
   infoPlayer.textContent = `Player ${currentPlayer}'s turn:`;
-  infoCell.classList.remove("player1", "player2");
+  infoCell.classList.remove('player1', 'player2');
   infoCell.classList.add(`player${currentPlayer}`);
 
   return;
@@ -308,14 +308,14 @@ function isPotentialWinningMoveForPlayer(testPlayer, col) {
 // Displays the game end modal with the appropriate message based on the game result.
 // Params: player (Number: 1, 2, or -1 for a tie)
 function showGameEndModal(player) {
-  const modal = document.getElementById("end-game-modal");
-  const winningMessage = document.getElementById("end-game-message");
+  const modal = document.getElementById('end-game-modal');
+  const winningMessage = document.getElementById('end-game-message');
   if (player === -1) {
     winningMessage.textContent = `It's a tie!`;
   } else {
     winningMessage.textContent = `Player ${player} wins!`;
   }
-  modal.style.display = "flex";
+  modal.style.display = 'flex';
 }
 
 // Resets the game board and initializes the current player to 1.
@@ -327,8 +327,8 @@ function resetGame() {
   }
   currentPlayer = 1;
 
-  const highlightedCells = document.querySelectorAll(".cell.winning");
-  highlightedCells.forEach((cell) => cell.classList.remove("winning"));
+  const highlightedCells = document.querySelectorAll('.cell.winning');
+  highlightedCells.forEach((cell) => cell.classList.remove('winning'));
   updateUI();
 }
 
@@ -354,22 +354,22 @@ function switchTurn() {
 // Creates a cell element on the game board, optionally with an icon.
 // Params: row (Number: 0-5), col (Number: 0-6), withIcon (Boolean: default=false)
 function createCell(row, col, withIcon = false) {
-  const cell = document.createElement("div");
+  const cell = document.createElement('div');
 
   if (withIcon) {
-    const icon = document.createElement("img");
-    icon.src = "./assets/downArrow.svg";
-    icon.classList.add("down-icon");
-    icon.setAttribute("data-col", col);
-    icon.addEventListener("click", cellClicked);
+    const icon = document.createElement('img');
+    icon.src = './assets/downArrow.svg';
+    icon.classList.add('down-icon');
+    icon.setAttribute('data-col', col);
+    icon.addEventListener('click', cellClicked);
     cell.appendChild(icon);
-    cell.classList.add("game-board-icon");
+    cell.classList.add('game-board-icon');
     gameBoardIconsRow.appendChild(cell);
   } else {
-    cell.classList.add("cell");
-    cell.setAttribute("data-row", row);
-    cell.setAttribute("data-col", col);
-    cell.addEventListener("click", cellClicked);
+    cell.classList.add('cell');
+    cell.setAttribute('data-row', row);
+    cell.setAttribute('data-col', col);
+    cell.addEventListener('click', cellClicked);
     gameBoard.appendChild(cell);
   }
 }
@@ -382,6 +382,6 @@ function highlightWinningDiscs(winningCells) {
     const cellElement = document.querySelector(
       `[data-row='${row}'][data-col='${col}']`
     );
-    cellElement.classList.add("winning");
+    cellElement.classList.add('winning');
   }
 }
